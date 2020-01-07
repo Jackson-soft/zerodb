@@ -1,0 +1,52 @@
+---
+# This role will install zeroproxy  on daily env
+
+
+- name: Kill old zeroproxy process
+  shell: kill -9 $(ps aux| grep -v grep |grep -w zeroProxy | awk '{print $2}')
+  ignore_errors: True
+
+- name: Copy new zeroproxy binary to deploy directory
+  copy:
+    src: "{{GOPATH}}/src/{{proxy_binary_src}}{{proxy_binary_name}}"
+    dest: "{{proxy_binary_dest}}"
+    owner: root
+    group: root
+    mode: 755
+
+- name: Copy new zeroproxy config to daily deploy directory
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    mode: 777
+  with_items:
+    - {src: '{{GOPATH}}/src/{{proxy_binary_src}}app1.yaml', dest: '{{proxy_binary_dest}}'}
+    - {src: '{{GOPATH}}/src/{{proxy_binary_src}}app2.yaml', dest: '{{proxy_binary_dest}}'}
+    - {src: '{{GOPATH}}/src/{{proxy_binary_src}}app3.yaml', dest: '{{proxy_binary_dest}}'}
+    - {src: '{{GOPATH}}/src/{{proxy_binary_src}}app_daily.yaml', dest: '{{proxy_binary_dest}}'}
+  when: env=="daily"
+
+- name: Copy new zeroproxy config to daily deploy directory
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    mode: 777
+  with_items:
+    - {src: '{{GOPATH}}/src/{{proxy_binary_src}}app.yaml', dest: '{{proxy_binary_dest}}'}
+  when: env=="public"
+
+- name: Copy start script to deploy directory
+  copy:
+    src: "{{proxy_start_script}}"
+    dest: "{{proxy_binary_dest}}{{proxy_start_script}}"
+    owner: root
+    group: root
+    mode: 755
+
+- name: start zeroproxy
+  command : " {{proxy_binary_dest}}{{proxy_start_script}} "
+  args:
+    chdir: "{{proxy_binary_dest}}"
+    executable: "/bin/bash"
+  async: 0
+  poll: 0

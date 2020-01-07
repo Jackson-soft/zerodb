@@ -1,0 +1,12 @@
+---
+## This playbook deploys zeroproxy  on  host
+- name: Install zeroProxy
+  hosts: proxy_{{env}}
+  sudo: yes
+  vars:
+    ansible_ssh_user: 'root'
+    ansible_ssh_private_key_file: ''
+    ansible_ssh_pass: 'sdfsdf'
+
+  roles:
+     - role: zeroproxy

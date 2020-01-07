@@ -1,0 +1,15 @@
+---
+# all hosts Variables
+version: 0.1.0
+
+proxy_binary_src: git.2dfire-inc.com/platform/zerodb/zero-proxy/cmd/zeroproxy/
+proxy_binary_dest: /opt/app/zerodb/zeroproxy/
+proxy_binary_name: zeroProxy.out
+proxy_config: app.yaml
+proxy_start_script: start_zeroproxy_{{env}}.sh
+
+keeper_binary_src: git.2dfire-inc.com/platform/zerodb/zero-keeper/cmd/
+keeper_binary_dest: /opt/app/zerodb/zerokeeper/
+keeper_binary_name: zeroKeeper.out
+keeper_config: app_{{env}}.yaml
+keeper_start_script: start_zerokeeper_{{env}}.sh

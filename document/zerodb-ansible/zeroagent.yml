@@ -1,0 +1,10 @@
+---
+## This playbook deploys  zeroagent on host
+- name: Install zeroagent
+  hosts: agenthosts
+  vars:
+    ansible_ssh_user: 'root'
+    ansible_ssh_pass: 'sdfsdf'
+    ansible_ssh_port: 22
+  roles:
+  - zeroagent

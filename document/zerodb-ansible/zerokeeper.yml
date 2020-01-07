@@ -1,0 +1,13 @@
+---
+## This playbook deploys  zerokeeper on host
+- name: Install zeroKeeper on public env
+  hosts: keeper_{{env}}
+  sudo: yes
+  vars:
+    ansible_ssh_user: 'root'
+    ansible_ssh_private_key_file: '/Users/eric/.ssh/id_rsa'
+    ansible_ssh_pass: 'sdfsdf'
+  roles:
+  - zerokeeper
+
+## This playbook deploy zerokeeper on daily host

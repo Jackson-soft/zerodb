@@ -1,0 +1,37 @@
+---
+# This role will install zeroagent
+
+
+- name: Kill  zeroagent process
+  shell: kill -9 $(ps aux| grep -v grep |grep -w zeroAgent | awk '{print $2}')
+  ignore_errors: True
+
+- name: Copy new zeroagent binary to deploy directory
+  copy:
+    src: "{{agent_binary_src}}{{agent_binary_name}}"
+    dest: "{{agent_binary_dest}}"
+    owner: root
+    group: root
+    mode: 755
+
+- name: Copy new zeroagent config to deploy directory
+  copy:
+    src: "{{agent_binary_src}}{{agent_config}}"
+    dest: "{{agent_binary_dest}}"
+    mode: 777
+
+- name: Copy start script to deploy directory
+  copy:
+    src: "{{agent_start_script}}"
+    dest: "{{agent_binary_dest}}{{agent_start_script}}"
+    owner: root
+    group: root
+    mode: 755
+
+- name: start zeroagent
+  command : " {{agent_binary_dest}}{{agent_start_script}} "
+  args:
+    chdir: "{{agent_binary_dest}}"
+    executable: "/bin/bash"
+  async: 0
+  poll: 0

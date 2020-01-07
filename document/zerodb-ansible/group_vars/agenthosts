@@ -1,0 +1,9 @@
+---
+# The variables file used by the playbooks in the agenthosts group
+
+#agent_binary_src: /Users/myonlyzzy/go/src/git.2dfire-inc.com/platform/zerodb/zero-agent/cmd/
+agent_binary_src: your agent binary path
+agent_binary_dest: /opt/app/zerodb/zeroagent/
+agent_binary_name: zeroAgent.out
+agent_config: app.yaml
+agent_start_script: start_zeroagent.sh

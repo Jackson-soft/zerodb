@@ -1,0 +1,42 @@
+---
+# This role will install zerokeeper
+
+
+- name: Kill  zerokeeper process
+  sudo: yes
+  shell: kill -9 $(ps aux| grep -v grep |grep -w zeroKeeper | awk '{print $2}')
+  ignore_errors: True
+
+- name: Copy new zerokeeper binary to deploy directory
+  sudo: yes
+  copy:
+    src: "{{GOPATH}}/src/{{keeper_binary_src}}{{keeper_binary_name}}"
+    dest: "{{keeper_binary_dest}}"
+    owner: root
+    group: root
+    mode: 755
+
+- name: Copy new zerokeeper config to deploy directory
+  sudo: yes
+  copy:
+    src: "{{GOPATH}}/src/{{keeper_binary_src}}{{keeper_config}}"
+    dest: "{{keeper_binary_dest}}"
+    mode: 777
+
+- name: Copy start script to deploy directory
+  sudo: yes
+  copy:
+    src: "{{keeper_start_script}}"
+    dest: "{{keeper_binary_dest}}{{keeper_start_script}}"
+    owner: root
+    group: root
+    mode: 755
+
+- name: start zerokeeper
+  sudo: yes
+  command : "{{keeper_binary_dest}}{{keeper_start_script}} "
+  args:
+    chdir: "{{keeper_binary_dest}}"
+    executable: "/bin/bash"
+  async: 0
+  poll: 0

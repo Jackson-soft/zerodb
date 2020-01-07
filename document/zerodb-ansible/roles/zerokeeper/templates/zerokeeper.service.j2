@@ -1,0 +1,12 @@
+[Unit]
+Description= ZeroKeeper Server
+Requires=network.target
+After=syslog.target network.target
+
+[Service]
+
+ExecStart {{zerokeeper_binary_dest}}
+
+[Install]
+WantedBy=multi-user.target
+
