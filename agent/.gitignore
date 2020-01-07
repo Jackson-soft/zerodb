@@ -1,0 +1,8 @@
+.idea/
+*.a
+*.out
+zlog/
+*.lock
+.DS_Store
+.vscode/
+debug

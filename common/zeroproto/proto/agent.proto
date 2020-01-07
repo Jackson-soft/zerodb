@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package agent;
+import "basic.proto";
+
+service Agent {
+    //获取mysql的binlog同步情况
+    rpc GetBinLog(BinLogRequest) returns (BinLogResponse) {}
+    //获取mysql机器的负载code为0则安全，非0则负载过高
+    rpc GetLoad(LoadRequest) returns (basic.BasicResponse) {}
+}
+
+message BinLogRequest { string role = 1; }
+
+message BinLogResponse {
+    string file    = 1;
+    int64 position = 2;
+}
+
+message LoadRequest { double loadLimit = 1; }

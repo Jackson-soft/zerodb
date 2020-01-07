@@ -1,0 +1,13 @@
+# etcd集群地址
+#persistence: [10.1.21.102:2379]
+persistence: [10.1.24.202:2379]
+rpcServer: 0.0.0.0:5003
+webServer: 0.0.0.0:5004
+metricsAddr: 0.0.0.0:5005
+agentPort: 5002
+debugServer: 0.0.0.0:50011
+debugMode: true
+ossUrl: https://upload.2dfire-daily.com
+log:
+    file: zlog/keeper.log
+    level: info

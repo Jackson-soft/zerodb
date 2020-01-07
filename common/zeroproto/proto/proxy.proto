@@ -1,0 +1,144 @@
+// Copyright 2018 2dfire .
+// Authors paomian@2dfire.com
+
+syntax = "proto3";
+
+package proxy;
+
+option java_multiple_files = true;
+option java_package        = "com.twodfire.zerodb.zppb";
+
+// import "gogoproto/gogo.proto";
+import "basic.proto";
+
+service Proxy {
+    //推送分库分表配置
+    rpc PushConfig(PushConfigRequest) returns (basic.BasicResponse) {}
+    //获取投票
+    rpc GetVote(GetVoteRequest) returns (GetVoteResponse) {}
+    //返回ZeroProxy版本
+    rpc Version(basic.EmptyRequest) returns (VersionResponse) {}
+    //切换数据源
+    rpc SwitchDataSource(SwitchDatasourceRequest) returns (SwitchDatasourceResponse) {}
+    //回滚分库分表配置
+    rpc RollbackConfig(basic.EmptyRequest) returns (basic.BasicResponse) {}
+    rpc StopWritingAbility(StopWriteRequest) returns (basic.BasicResponse) {}
+    rpc RecoverWritingAbility(RecoverWriteRequest) returns (basic.BasicResponse) {}
+    rpc AddHostGroup(AddHostGroupRequest) returns (basic.BasicResponse) {}
+    rpc DeleteHostGroup(DeleteHostGroupRequest) returns (basic.BasicResponse) {}
+    rpc AddSchema(AddSchemaRequest) returns (basic.BasicResponse) {}
+    rpc DeleteSchema(DeleteSchemaRequest) returns (basic.BasicResponse) {}
+    rpc AddTable(AddTableRequest) returns (basic.BasicResponse) {}
+    rpc DeleteTable(DeleteTableRequest) returns (basic.BasicResponse) {}
+    rpc UpdateSchemaRWSplit(UpdateSchemaRWSplitRequest) returns (basic.BasicResponse) {}
+    rpc UpdateStopService(UpdateStopServiceRequest) returns (basic.BasicResponse) {}
+    rpc Restart(basic.EmptyRequest) returns (basic.BasicResponse) {}
+    rpc Remove(basic.EmptyRequest) returns (basic.BasicResponse) {}
+    rpc UpdateSwitch(UpdateSwitchRequest) returns (basic.BasicResponse) {}
+    rpc UpdateBasic(UpdateBasicRequest) returns (basic.BasicResponse) {}
+    rpc AddHostGroupCluster(AddHostGroupClusterRequest) returns (basic.BasicResponse) {}
+    rpc UpdateHostGroupCluster(UpdateHostGroupClusterRequest) returns (basic.BasicResponse) {}
+    rpc DeleteHostGroupCluster(DeleteHostGroupClusterRequest) returns (basic.BasicResponse) {}
+}
+
+message VersionResponse {
+    basic.BasicResponse basicResp = 1;
+    string curVersion             = 2;
+    string backVersion            = 3;
+}
+
+message StopWriteRequest { string hostgroup = 1; }
+
+message RecoverWriteRequest { string hostgroup = 1; }
+
+message PushConfigRequest {
+    bytes data     = 1;
+    string version = 2;
+}
+
+message GetVoteResponse {
+    basic.BasicResponse basicResp = 1;
+    int32 from                    = 2;
+    bool vote                     = 3;
+}
+
+message GetVoteRequest {
+    string hostgroup = 1;
+    int32 from       = 2;
+}
+
+message SwitchDatasourceRequest {
+    string hostgroup = 1;
+    int32 from       = 2;
+    int32 to         = 3;
+}
+
+message SwitchDatasourceResponse { basic.BasicResponse basicResp = 1; }
+
+message AddHostGroupRequest {
+    bytes hostGroupCfgData = 1;
+    string version         = 2;
+}
+
+message DeleteHostGroupRequest {
+    string hostGroupName = 1;
+    string version       = 2;
+}
+
+message AddSchemaRequest {
+    bytes schemaCfgData = 1;
+    string version      = 2;
+}
+
+message DeleteSchemaRequest {
+    string schemaName = 1;
+    string version    = 2;
+}
+
+message AddTableRequest {
+    bytes tableCfgData = 1;
+    string schemaName  = 2;
+    string version     = 3;
+}
+
+message DeleteTableRequest {
+    string tableName  = 1;
+    string schemaName = 2;
+    string version    = 3;
+}
+
+message UpdateSchemaRWSplitRequest {
+    string schemaName = 1;
+    bool rwSplit      = 2;
+    string version    = 3;
+}
+
+message UpdateStopServiceRequest {
+    bytes stopServiceData = 1;
+    string version        = 2;
+}
+
+message UpdateSwitchRequest {
+    bytes switchData = 1;
+    string version   = 2;
+}
+
+message UpdateBasicRequest {
+    bytes basicData = 1;
+    string version  = 2;
+}
+
+message AddHostGroupClusterRequest {
+    bytes hostGroupClusterCfgData = 1;
+    string version                = 2;
+}
+
+message UpdateHostGroupClusterRequest {
+    bytes hostGroupClusterCfgData = 1;
+    string version                = 2;
+}
+
+message DeleteHostGroupClusterRequest {
+    string hostGroupClusterName = 1;
+    string version              = 2;
+}

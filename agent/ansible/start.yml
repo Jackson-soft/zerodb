@@ -1,0 +1,7 @@
+- hosts: pro_agent
+  user: fusu
+  become: yes
+  become_user: root
+  tasks:
+    - name: restart agent
+      shell: systemctl restart zero-agent

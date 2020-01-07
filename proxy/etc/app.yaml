@@ -1,0 +1,11 @@
+clusterName: private-perf-test
+rpcServer: 0.0.0.0:5006
+proxyServer: 0.0.0.0:9696
+keeperAddr: https://rpc-keeper-middleware-daily.app.2dfire-daily.com
+metricsAddr: 0.0.0.0:5005
+charset: utf8mb4
+debugServer: 0.0.0.0:50011
+debugMode: true
+log:
+    file: zlog
+    level: info

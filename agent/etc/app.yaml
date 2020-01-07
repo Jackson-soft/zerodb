@@ -1,0 +1,8 @@
+keeperAddr: 10.12.0.243:8080
+rpcServer: 0.0.0.0:5003
+metricsServer: 0.0.0.0:5004
+#mysql: root:Soft_1215@tcp(127.0.0.1:3306)/?charset=utf8mb4&loc=Asia%2FChongqing
+mysql: zerodb:zerodb@552208@tcp(127.0.0.1:3306)/?charset=utf8mb4&loc=Asia%2FChongqing
+log:
+    path: /opt/logs/golang
+    level: error

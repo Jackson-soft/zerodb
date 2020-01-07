@@ -1,0 +1,105 @@
+// Copyright 2018 2dfire .
+// Authors paomian@2dfire.com
+
+syntax = "proto3";
+package keeper;
+
+option java_multiple_files = true;
+option java_package        = "com.twodfire.zerodb.zkpb";
+
+// import "gogoproto/gogo.proto";
+import "basic.proto";
+
+service Keeper {
+    // 切换数据库
+    rpc SwitchDB(SwitchDBRequest) returns (SwitchDBResponse) {}
+    rpc ProxyHeartbeat(ProxyHeartRequest) returns (basic.BasicResponse) {}
+    rpc AgentHeartbeat(AgentHeartRequest) returns (basic.BasicResponse) {}
+    // proxy向keeper拉取分库分表配置
+    rpc PullConfig(PullConfigRequest) returns (PullConfigResponse) {}
+    rpc unregister(proxy) returns (basic.BasicResponse) {}
+    rpc getProxyStatus(proxy) returns (proxyStatusResponse) {}
+    rpc ProxyClusters(ClustersRequest) returns (ClustersResponse) {}
+    rpc AddProxyMember(ProxyMemberRequest) returns (basic.BasicResponse) {}
+}
+
+message proxy {
+    string address     = 1;
+    string clusterName = 2;
+}
+
+message proxyStatusResponse {
+    basic.BasicResponse basicResp = 1;
+    string status                 = 2;
+}
+
+message ProxyHeartRequest {
+    string clusterName    = 1;
+    string address        = 2;
+    string status         = 3;
+    SystemInfo systemInfo = 4;
+    string confVersion    = 5;
+}
+
+message Mysql {
+    int32 status    = 1;
+    int64 connected = 2;
+    int64 memory    = 3;
+}
+
+message LoadAvg {
+    double avg1min  = 1;
+    double avg5min  = 2;
+    double avg15min = 3;
+}
+
+message SystemInfo {
+    double cpuLoad  = 1;
+    double memLoad  = 2;
+    LoadAvg loadAvg = 3;
+}
+
+message AgentHeartRequest {
+    string address        = 1;
+    Mysql mysql           = 2;
+    SystemInfo systemInfo = 3;
+}
+
+message RegisterRequest {
+    string address     = 1;
+    string clusterName = 2;
+}
+
+message PullConfigRequest { string clusterName = 1; }
+
+message PullConfigResponse {
+    bytes data     = 1;
+    string version = 2;
+}
+
+message SwitchDBRequest {
+    string hostgroup   = 1;
+    int32 from         = 2;
+    int32 to           = 3;
+    string proxyIP     = 4;
+    string clusterName = 5;
+}
+
+message SwitchDBResponse { basic.BasicResponse basicResp = 1; }
+
+message ClustersRequest { string clusterName = 1; }
+
+message ClusterInfo {
+    string host   = 1;
+    uint64 port   = 2;
+    uint64 weight = 3;
+}
+
+message ClustersResponse { repeated ClusterInfo infos = 1; }
+
+message ProxyMemberRequest {
+    string clusterName = 1;
+    string host        = 2;
+    uint64 port        = 3;
+    uint64 weight      = 4;
+}

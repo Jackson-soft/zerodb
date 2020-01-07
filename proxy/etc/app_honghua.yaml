@@ -1,0 +1,13 @@
+clusterName: honghua
+rpcServer: 0.0.0.0:50061
+proxyServer: 0.0.0.0:9699
+keeperAddr: 10.1.21.177:5003
+metricsAddr: 0.0.0.0:50081
+checkhealthServer: 0.0.0.0:9001
+charset: utf8mb4
+debugServer: 0.0.0.0:50012
+debugMode: true
+logSQL: true
+log:
+    path: /var/log/zlog1
+    level: info

@@ -1,0 +1,11 @@
+clusterName: fusu_test
+rpcServer: 0.0.0.0:5006
+proxyServer: 0.0.0.0:9696
+keeperAddr: 10.1.21.177:5003
+#keeperAddr: 127.0.0.1:5003
+checkhealthServer: 0.0.0.0:9000
+metricsAddr: 0.0.0.0:5008
+charset: utf8mb4
+log:
+    path: zlog
+    level: info

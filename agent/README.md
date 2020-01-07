@@ -1,0 +1,1 @@
+zeroAgent是一个「守护」着MySQL的进程，它会定时与MySQL进程进行通信，并且将信息定时上报给zeroKeeper集群

@@ -1,0 +1,25 @@
+{
+    "name": "zerodb-web",
+    "version": "1.1.0",
+    "description": "A fire project",
+    "license": "MIT",
+    "author": "zipai",
+    "scripts": {
+        "dev": "fire-server start",
+        "build": "fire-server build"
+    },
+    "dependencies": {
+        "iview": "^2.14.3",
+        "vuex-oidc": "^2.0.0"
+    },
+    "devDependencies": {
+        "jwt-decode": "^2.2.0",
+        "@2dfire/server": "1.25.1"
+    },
+    "prettier": {
+        "semi": false,
+        "singleQuote": false,
+        "tabWidth": 4,
+        "printWidth": 120
+    }
+}

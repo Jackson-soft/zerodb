@@ -1,0 +1,55 @@
+basic:
+    # 配置的版本
+    config_name: public
+
+    # server user and password
+    user :  zerodb
+    password : zerodb
+
+    slow_log_time : 1000
+
+    # 如果推送proxy配置失败了，是否需要继续推送后续的proxy
+    push_when_fail: false
+
+stop_service:
+    # 当某些数据源切换被拒多次后，又与keeper失联，是否需要「下线」
+    offline_on_lost_keeper: true
+    # 数据源切换被拒次数
+    offline_swh_rejected_num: 3
+    # 至少有两个Host连续被数据源切换失败后，让自己下线
+    offline_down_host_num: 4
+    # 下线后自己恢复
+    # 连接上host后，proxy向keeper恢复心跳，keeper中标志proxy为"ready"
+    offline_recover: true
+
+# 全局级别的「数据源切换」配置，也有Host级别的
+switch:
+    # 默认值为true
+    need_vote: true
+    # 只有当获得了 >= n% 的投票后才能数据源切换
+    vote_approve_ratio: 50
+
+    # 和target agent有关
+    # 默认值为true
+    need_load_check: true
+    safe_load: 2
+
+    # 与source agent和target agent都有关
+    # need_binlog_check: false
+    need_binlog_check: true
+    #    mysql> show master status;
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    #    | File             | Position  | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    #    | mysql-bin.000056 | 176224573 |              |                  |                   |
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    safe_binlog_delay: 1000
+    binlog_wait_time: 5 # sec
+
+    frequency: 10 # sec
+
+    backend_ping_interval: 5 # sec
+
+host_groups:
+host_group_clusters :
+schema_configs :

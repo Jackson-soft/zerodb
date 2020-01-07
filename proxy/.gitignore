@@ -1,0 +1,8 @@
+cmd
+*.out
+y.output
+*.log
+/zlog_test
+.idea/
+go.sum
+.mypy_cache/

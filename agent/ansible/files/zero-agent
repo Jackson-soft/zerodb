@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# /etc/rc.d/init.d/zero-agent
+#
+#
+#  chkconfig: 2345 20 80 
+#  description: ZeroDB Agent
+#  processname: zero-agent
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+PROGNAME=zeroAgent
+PRODIR=/opt/app/zerodb/agent
+PROG=$PRODIR/$PROGNAME
+USER=root
+LOGFILE=/var/log/$PROGNAME.log
+#DATADIR=/usr/hostonnet/prometheus/data
+LOCKFILE=/var/run/$PROGNAME.pid
+CONFIG_FILE=$PRODIR/app.yaml
+
+start() {
+    echo -n "Starting $PROGNAME: "
+    #cd /usr/hostonnet/prometheus/
+    #daemon --user $USER --pidfile="$LOCKFILE" "$PROG -config.file $CONFIG_FILE -storage.local.path $DATADIR -alertmanager.url $ALERT_MGR_URL &>$LOGFILE &"
+    daemon --user $USER --pidfile="$LOCKFILE" "$PROG -config $CONFIG_FILE &>$LOGFILE &"
+    echo $(pidofproc $PROGNAME) >$LOCKFILE
+    echo
+}
+
+stop() {
+    echo -n "Shutting down $PROGNAME: "
+    killproc $PROGNAME
+    rm -f $LOCKFILE
+    echo
+}
+
+
+case "$1" in
+    start)
+    start
+    ;;
+    stop)
+    stop
+    ;;
+    status)
+    status $PROGNAME
+    ;;
+    restart)
+    stop
+    start
+    ;;
+    reload)
+    echo "Sending SIGHUP to $PROGNAME"
+    kill -SIGHUP $(pidofproc $PROGNAME)
+    ;;
+    *)
+        echo "Usage: service prometheus {start|stop|status|reload|restart}"
+        exit 1
+    ;;
+esac

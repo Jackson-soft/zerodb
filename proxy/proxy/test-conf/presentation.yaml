@@ -1,0 +1,127 @@
+basic:
+    # 配置的版本
+    config_name: 测试版本
+
+    # server user and password
+    user :  zerodb
+    password : zerodb
+
+    slow_log_time : 1000
+
+    # 如果推送proxy配置失败了，是否需要继续推送后续的proxy
+    push_when_fail: false
+
+stop_service:
+    # 当某些数据源切换被拒多次后，又与keeper失联，是否需要「下线」
+    offline_on_lost_keeper: true
+    # 数据源切换被拒次数
+    offline_swh_rejected_num: 3
+    # 至少有两个Host连续被数据源切换失败后，让自己下线
+    offline_down_host_num: 4
+    # 下线后自己恢复
+    # 连接上host后，proxy向keeper恢复心跳，keeper中标志proxy为"ready"
+    offline_recover: true
+
+# 全局级别的「数据源切换」配置，也有Host级别的
+switch:
+    # 默认值为true
+    need_vote: true
+    # 只有当获得了 >= n% 的投票后才能数据源切换
+    vote_approve_ratio: 50
+
+    # 和target agent有关
+    # 默认值为true
+    need_load_check: true
+    safe_load: 2
+
+    # 与source agent和target agent都有关
+    # need_binlog_check: false
+    need_binlog_check: true
+    #    mysql> show master status;
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    #    | File             | Position  | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    #    | mysql-bin.000056 | 176224573 |              |                  |                   |
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    safe_binlog_delay: 1000
+    binlog_wait_time: 5 # sec
+
+    frequency: 10 # sec
+
+    backend_ping_interval: 5 # sec
+
+host_groups:
+-
+    name : hostGroup1
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.1:3306,10.1.21.79:3306
+    active_write: 0
+    active_write: 0
+    enable_switch: true #default true
+
+-
+    name : hostGroup2
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.2:3306,10.1.21.80:3306
+    active_write: 0
+    enable_switch: true
+-
+    name : hostGroup3
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.3:3306,10.1.21.81:3306
+    active_write: 0
+    enable_switch: true
+-
+    name : hostGroup4
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.4:3306,10.1.21.82:3306
+    active_write: 0
+    enable_switch: true
+
+host_group_clusters :
+-
+    name: cluster_one_plus_four
+    nonsharding_host_group: hostGroup1
+    sharding_host_groups: [hostGroup1,hostGroup2,hostGroup3,hostGroup4]
+-
+    name: cluster_four
+    nonsharding_host_group:
+    sharding_host_groups: [hostGroup1,hostGroup2,hostGroup3,hostGroup4]
+#-
+#    name: cluster_custody
+#    nonsharding_host_group: hostGroup5
+
+schema_configs :
+-
+    name: zerodb
+    host_group_cluster: cluster_four
+    rw_split: false
+    multi_route: true
+    init_conn_multi_route: true
+    schema_sharding: 128
+    table_sharding: 1
+    table_configs:
+    -
+        name: paomian
+        sharding_key: entity_id
+        rule: string
+    -
+        name: fusu
+        sharding_key: entity_id
+        rule: string
+    -
+        name: nanxing
+        sharding_key: entity_id
+        rule: string

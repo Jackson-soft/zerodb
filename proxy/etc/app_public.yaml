@@ -1,0 +1,12 @@
+clusterName: public
+rpcServer: 0.0.0.0:5004
+metricsAddr: 0.0.0.0:8779
+proxyServer: 0.0.0.0:5003
+keeperAddr: keeper.middleware.svc:5004
+charset: utf8mb4
+debugServer: 0.0.0.0:5006
+debugMode: true
+logSQL: true
+log:
+    file: /opt/logs/golang/prox.log
+    level: error

@@ -1,0 +1,15 @@
+# etcd集群地址
+persistence:
+    - 10.1.22.0:2379
+# 在持久层的唯一集群标识
+#clusterName: order_zerodb_cluster
+rpcServer: 0.0.0.0:5004
+metricsAddr: 0.0.0.0:5005
+webServer: 0.0.0.0:8080
+agentPort: 5002
+debugServer: 0.0.0.0:5006
+debugMode: true
+ossUrl: https://upload.2dfire-daily.com
+log:
+    file: /opt/logs/golang/keeper.log
+    level: info

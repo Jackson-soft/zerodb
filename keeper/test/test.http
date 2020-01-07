@@ -1,0 +1,33 @@
+// @domain = https://zerodb.app.2dfire-daily.com
+@domain = https://keeper-middleware.app.2dfire.com
+//@domain = http://127.0.0.1:8080
+
+###
+GET {{domain}}/check_health
+
+###
+GET {{domain}}/proxy_list?cluster_name=fusu_test
+
+### init
+POST {{domain}}/api/config/init
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="clusterName"
+
+daily
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="force"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="daily.yaml"
+Content-Type: text/plain
+
+< ./daily.yaml
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+
+###
+GET {{domain}}/api/cluster_list

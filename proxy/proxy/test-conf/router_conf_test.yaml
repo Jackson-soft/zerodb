@@ -1,0 +1,139 @@
+host_groups:
+-
+    name : hostGroup1
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.1:3306,10.1.21.79:3306
+    active_write: 0
+#    read : 10.1.22.1:3306@3,10.1.22.1:3306@2
+-
+    name : hostGroup2
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.2:3306,10.1.21.80:3306
+    active_write: 0
+#    read : 10.1.22.2:3306@3,10.1.22.2:3306@2
+-
+    name : hostGroup3
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.3:3306,10.1.21.81:3306
+    active_write: 0
+#    read : 10.1.22.3:3306@3,10.1.22.3:3306@2
+-
+    name : hostGroup4
+    max_conn : 2560
+    init_conn : 10
+    user :  zerodb
+    password : zerodb@552208
+    write : 10.1.22.4:3306,10.1.21.82:3306
+    active_write: 0
+#    read : 10.1.22.4:3306@3,10.1.22.4:3306@2
+-
+    name : hostGroup5
+    max_conn : 1024
+    init_conn : 1
+    user :  twodfire
+    password : 123456
+    write : 10.1.6.10:3306
+    active_write: 0
+
+host_group_clusters:
+-
+    name: cluster_1234_1
+    nonsharding_host_group: hostGroup1
+    sharding_host_groups: [hostGroup1,hostGroup2,hostGroup3,hostGroup4]
+-
+    name: cluster_1234
+    sharding_host_groups: [hostGroup1,hostGroup2,hostGroup3,hostGroup4]
+-
+    name: cluster_custody
+    nonsharding_host_group: hostGroup5
+
+schema_configs :
+-
+    name: zerodb
+    host_group_cluster: cluster_1234_1
+    schema_sharding: 256
+    table_sharding: 2
+    table_configs:
+    -
+        name: order_ins
+        sharding_key: entity_id
+        rule: string
+    -
+        name: ins_detail
+        sharding_key: entity_id
+        rule: string
+    -
+        name: order_sth
+        sharding_key: order_id
+        rule: int
+-
+    name: member
+    host_group_cluster: cluster_1234
+    schema_sharding: 128
+    table_sharding: 1
+    table_configs:
+    -
+        name: card
+        sharding_key: entity_id
+        rule: string
+    -
+        name: customer
+        sharding_key: entity_id
+        rule: int
+-
+    name: order
+    host_group_cluster: cluster_1234_1
+    schema_sharding: 128
+    table_sharding: 1
+    table_configs:
+    -
+        name: instancedetail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: waitingordercrid
+        sharding_key: customerregister_id
+        rule: string
+-
+    name: account
+    custody: true
+    host_group_cluster: cluster_custody
+-
+    name: test_schema_with_nonsharding_host_group
+    host_group_cluster: cluster_1234_1
+    schema_sharding: 4
+    table_sharding: 2
+    table_configs:
+    -
+        name: test_table
+        sharding_key: entity_id
+        rule: string
+-
+    name: test_schema_without_nonsharding_host_group
+    host_group_cluster: cluster_1234
+    schema_sharding: 4
+    table_sharding: 2
+    table_configs:
+    -
+        name: test_table
+        sharding_key: entity_id
+        rule: string
+-
+    name: test_schema_one_table_sharding
+    host_group_cluster: cluster_1234_1
+    schema_sharding: 4
+    table_sharding: 1
+    table_configs:
+    -
+        name: test_table
+        sharding_key: entity_id
+        rule: string

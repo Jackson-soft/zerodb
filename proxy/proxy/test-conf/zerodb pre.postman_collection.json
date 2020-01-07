@@ -1,0 +1,635 @@
+{
+	"info": {
+		"_postman_id": "ea9b2d84-4088-4876-8147-e75461d2b4e5",
+		"name": "zerodb pre",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "6a6a32f4-fd0a-4187-b339-bcd283375216",
+			"name": "shardconf_init",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test",
+							"type": "text"
+						},
+						{
+							"key": "force",
+							"value": "ssss",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file"
+						}
+					]
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/shardconf_init",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"shardconf_init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "084a0c2b-a4c5-4b6a-b2e4-0e0e1195ea85",
+			"name": "proxy_cluster_switch",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "10.12.1.64:5004/api/proxy_cluster/switch?clusterName=cluster-func-test&hostGroup=hostGroup1&from=0&to=1&reason=test",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"proxy_cluster",
+						"switch"
+					],
+					"query": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test"
+						},
+						{
+							"key": "hostGroup",
+							"value": "hostGroup1"
+						},
+						{
+							"key": "from",
+							"value": "0"
+						},
+						{
+							"key": "to",
+							"value": "1"
+						},
+						{
+							"key": "reason",
+							"value": "test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "baf78819-17a1-4bf3-a0ff-739a89ff1be1",
+			"name": "get_config",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "10.12.1.64:5004/api/config?clusterName=cluster-func-test&snapshotName=",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"config"
+					],
+					"query": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test"
+						},
+						{
+							"key": "snapshotName",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "bb000053-2d52-473b-bd58-6e13b240be0e",
+			"name": "update_rw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clusterName\": \"cluster-func-test\",\n    \"shardrw\": {\n        \n        \"zerodb\": false\n    }\n}"
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/update_shardrw",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"update_shardrw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "777542e4-aae9-45c3-bf0d-949af3c891e4",
+			"name": "proxy_cluster_status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "10.12.1.64:5004/api/proxy_cluster/status?clusterName=cluster-func-test",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"proxy_cluster",
+						"status"
+					],
+					"query": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "095219c2-c078-4add-b4e6-bef8705ad238",
+			"name": "add snapshot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "snapshotName",
+							"value": "sp_sbtest123",
+							"sessionValue": "dd",
+							"type": "text"
+						},
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test",
+							"sessionValue": "dd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/snapshot_config?",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"snapshot_config"
+					],
+					"query": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test",
+							"disabled": true
+						},
+						{
+							"key": "snapshotName",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "46d616fa-58b6-49e6-bb48-83a94c620c13",
+			"name": "list snapshot_config",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "10.12.1.64:5004/api/snapshot_list?clusterName=cluster-func-test",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"snapshot_list"
+					],
+					"query": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "1ed5a813-3600-417b-a099-806ffb98bcd3",
+			"name": "update_stopservice",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clusterName\": \"cluster-func-test\",\n    \"service\": {\n        \"offline_on_lost_keeper\": true,\n        \"offline_swh_rejected_num\": 4,\n        \"offline_down_host_num\": 3,\n        \"offline_recover\": false\n    }\n}"
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/update_stopservice",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"update_stopservice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "39d695da-bdd2-41ba-961c-038cfbc25efd",
+			"name": "push_config",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "10.12.1.64:5004/api/push_config?clusterName=cluster-func-test&snapshotName=sp_sbtest",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"push_config"
+					],
+					"query": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test"
+						},
+						{
+							"key": "snapshotName",
+							"value": "sp_sbtest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "0964f344-4d2a-422f-b541-822fef6e17d0",
+			"name": "add_hostgroup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clusterName\": \"cluster-func-test\",\n    \"groups\": [{\n        \"name\": \"hostGroup11111111\",\n        \"max_conn\": 10000,\n        \"init_conn\": 1,\n        \"user\": \"zerodb\",\n        \"password\": \"zerodb@552208\",\n        \"write\": \"10.1.22.1:3306,10.1.21.79:3306\"\n    }]\n}"
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/add_hostgroups",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"add_hostgroups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "e1844527-a16d-44d4-b898-328841fb1ddf",
+			"name": "delete_hostgroup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clusterName\": \"cluster-func-test\",\n    \"names\": [\"hostGroup11111111\"]\n}"
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/delete_hostgroups",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"delete_hostgroups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "5c2806b5-a345-4170-b122-dc3109fae446",
+			"name": "add_schema",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clusterName\": \"cluster-func-test\",\n    \"schemas\": [\n        {\n            \"Name\": \"xxx_test\",\n            \"nonsharding_host_group\": \"hostGroup1\",\n            \"sharding_host_groups\": [\n                \"hostGroup1\",\n                \"hostGroup2\",\n                \"hostGroup3\",\n                \"hostGroup4\"\n            ],\n            \"schema_sharding\": 128,\n            \"table_sharding\": 1,\n            \"table_configs\": [\n                {\n                    \"name\": \"benchyou0\",\n                    \"sharding_key\": \"id\",\n                    \"rule\": \"int\"\n                },\n                {\n                    \"name\": \"benchyou1\",\n                    \"sharding_key\": \"id\",\n                    \"rule\": \"int\"\n                },\n                {\n                    \"name\": \"benchyou2\",\n                    \"sharding_key\": \"id\",\n                    \"rule\": \"int\"\n                },\n                {\n                    \"name\": \"benchyou3\",\n                    \"sharding_key\": \"id\",\n                    \"rule\": \"int\"\n                },\n                {\n                    \"name\": \"benchyou4\",\n                    \"sharding_key\": \"id\",\n                    \"rule\": \"int\"\n                }\n            ]\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/add_schema",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"add_schema"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "bbf97158-13b3-40d6-9972-c19ca8549756",
+			"name": "delete_schema",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"clusterName\":\"cluster-func-test\",\n\"names\":[\"zerodb\"]\n}"
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/delete_schema",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"delete_schema"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "0810a327-31f5-4828-82a6-38f1d463b592",
+			"name": "add_table",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clusterName\": \"cluster-func-test\",\n    \"schemaName\": \"zerodb\",\n    \"tables\": [{\n        \"name\": \"benchyou0\",\n        \"sharding_key\": \"id\",\n        \"rule\": \"int\"\n    }]\n}"
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/add_table",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"add_table"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "2b904d0f-bcee-426a-b9fd-11d149a1e02a",
+			"name": "delete_table",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test",
+							"sessionValue": "cluster-func-test",
+							"type": "text"
+						},
+						{
+							"key": "tableName",
+							"value": "benchyou0",
+							"sessionValue": "string",
+							"type": "text"
+						},
+						{
+							"key": "schemaName",
+							"value": "zerodb",
+							"sessionValue": "dddd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/delete_table",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"delete_table"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "bab71378-8a96-45c5-b2e6-e23b99445811",
+			"name": "add_snapshot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "clusterName",
+							"value": "cluster-func-test",
+							"type": "text"
+						},
+						{
+							"key": "snapshotName",
+							"value": "first_snapshot",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "10.12.1.64:5004/api/snapshot_config",
+					"host": [
+						"10",
+						"12",
+						"1",
+						"64"
+					],
+					"port": "5004",
+					"path": [
+						"api",
+						"snapshot_config"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4342c24a-e4c8-4bc8-8501-38bad5b20e02",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7069488f-29a5-4aaf-b4db-e130d194b841",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

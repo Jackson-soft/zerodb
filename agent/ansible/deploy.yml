@@ -1,0 +1,66 @@
+- hosts: pro_agent
+  user: fusu
+  become: yes
+  become_user: root
+  vars:
+    service_name: zero-agent
+    binary_src: ../cmd/
+    binary_dest: /opt/app/zerodb/agent/
+    binary_src_name: zeroAgent.out
+    binary_dest_name: zeroAgent
+    config_src: app_pro.yaml
+    config: app.yaml
+  tasks:
+    - name: create a directory
+      file:
+        path: '{{binary_dest}}'
+        state: directory
+
+    - name: copying config file to hosts
+      copy:
+        src: '{{binary_src}}{{config_src}}'
+        dest: '{{binary_dest}}{{config}}'
+        owner: root
+        group: root
+      tags:
+        - deploy
+      notify: restart zero-agent
+
+    - name: copying {{ binary_src_name }} to hosts
+      copy:
+        src: '{{binary_src}}{{binary_src_name}}'
+        dest: '{{binary_dest}}{{binary_dest_name}}'
+        owner: root
+        group: root
+        mode: 0755
+      tags:
+        - deploy
+      notify: restart zero-agent
+
+    - name: copy service file
+      copy:
+        src: '{{ service_name }}.service'
+        dest: '/etc/systemd/system/{{ service_name}}.service'
+        mode: 0660
+        owner: root
+        group: root
+      when: ansible_service_mgr == 'systemd'
+      notify: restart systemd daemon
+
+    - name: copy init file
+      copy:
+        src: '{{ service_name }}'
+        dest: '/etc/init.d/{{ service_name }}'
+        mode: 0755
+        owner: root
+        group: root
+      when: ansible_service_mgr == 'upstart'
+
+    - name: make sure zero-agent is running
+      service: name=zero-agent state=started enabled=yes
+      
+  handlers:
+    - name: restart systemd daemon
+      shell: systemctl daemon-reload
+    - name: restart zero-agent
+      service: name=zero-agent state=restarted

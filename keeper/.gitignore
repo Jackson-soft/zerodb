@@ -1,0 +1,6 @@
+cmd
+*.out
+zeroKeeper
+*.log
+/zlog
+go.sum

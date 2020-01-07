@@ -1,0 +1,16 @@
+[Unit]
+Description=ZeroDB agent
+After=network.target
+
+[Service]
+Type=simple
+Restart=on-failure
+PIDFile=/var/run/zero-agent.pid
+#KillMode=control-group
+ExecStart=/opt/app/zerodb/agent/zeroAgent
+ExecStop=/bin/kill -SIGTERM $MAINPID
+#ExecStop=/opt/app/zookeeper-3.4.11/bin/zkServer.sh stop
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

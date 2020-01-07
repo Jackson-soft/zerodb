@@ -1,0 +1,383 @@
+basic:
+    # 配置的版本
+    config_name: 测试版本
+
+    # server user and password
+    user :  zerodb
+    password : zerodb
+
+    slow_log_time : 1000
+
+    # 如果推送proxy配置失败了，是否需要继续推送后续的proxy
+    push_when_fail: false
+
+stop_service:
+    # 当某些数据源切换被拒多次后，又与keeper失联，是否需要「下线」
+    offline_on_lost_keeper: true
+    # 数据源切换被拒次数
+    offline_swh_rejected_num: 3
+    # 至少有两个Host连续被数据源切换失败后，让自己下线
+    offline_down_host_num: 4
+    # 下线后自己恢复
+    # 连接上host后，proxy向keeper恢复心跳，keeper中标志proxy为"ready"
+    offline_recover: true
+
+# 全局级别的「数据源切换」配置，也有Host级别的
+switch:
+    # 默认值为true
+    need_vote: true
+    # 只有当获得了 >= n% 的投票后才能数据源切换
+    vote_approve_ratio: 50
+
+    # 和target agent有关
+    # 默认值为true
+    need_load_check: true
+    safe_load: 2
+
+    # 与source agent和target agent都有关
+    # need_binlog_check: false
+    need_binlog_check: true
+    #    mysql> show master status;
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    #    | File             | Position  | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    #    | mysql-bin.000056 | 176224573 |              |                  |                   |
+    #    +------------------+-----------+--------------+------------------+-------------------+
+    safe_binlog_delay: 1000
+    binlog_wait_time: 5 # sec
+
+    frequency: 10 # sec
+
+    backend_ping_interval: 5 # sec
+
+host_groups:
+-
+    name : hostGroup1
+    # default max conns for mysql server
+    max_conn : 2560
+    init_conn : 10
+    user : order
+    password : order@552208
+    write : 10.1.6.101:3306,10.1.6.101:3306
+#    read : 10.1.22.1:3306@3,10.1.22.1:3306@2
+    active_write: 0
+    enable_switch: true #default true
+
+-
+    name : hostGroup2
+    # default max conns for mysql server
+    max_conn : 2560
+    init_conn : 10
+    user : order
+    password : order@552208
+    write : 10.1.6.102:3306,10.1.6.102:3306
+#    read : 10.1.22.2:3306@3,10.1.22.2:3306@2
+    active_write: 0
+    enable_switch: true
+-
+    name : hostGroup3
+    # default max conns for mysql server
+    max_conn : 2560
+    init_conn : 10
+    user : order
+    password : order@552208
+    write : 10.1.6.103:3306,10.1.6.103:3306
+#    read : 10.1.22.3:3306@3,10.1.22.3:3306@2
+    active_write: 0
+    enable_switch: true
+-
+    name : hostGroup4
+    # default max conns for mysql server
+    max_conn : 2560
+    init_conn : 10
+    user : order
+    password : order@552208
+    write : 10.1.6.104:3306,10.1.6.104:3306
+#    read : 10.1.22.4:3306@3,10.1.22.4:3306@2
+    active_write: 0
+    enable_switch: true
+
+-
+    name : hostGroup5
+    max_conn : 1024
+    init_conn : 1
+    user :  twodfire
+    password : 123456
+    write : 10.1.6.10:3306
+    active_write: 0
+    enable_switch: true
+
+host_group_clusters :
+-
+    name: cluster_one_plus_four
+    nonsharding_host_group: hostGroup1
+    sharding_host_groups: [hostGroup1,hostGroup2,hostGroup3,hostGroup4]
+-
+    name: cluster_four
+    nonsharding_host_group:
+    sharding_host_groups: [hostGroup1,hostGroup2,hostGroup3,hostGroup4]
+-
+    name: cluster_custody
+    nonsharding_host_group: hostGroup5
+
+schema_configs :
+-
+    # 单独用于托管某个数据库
+    name: custody
+    custody: true
+    rw_split: false
+    multi_route: true
+    init_conn_multi_route: true
+    host_group_cluster: cluster_custody
+-
+    name: zerodb
+    host_group_cluster: cluster_four
+    rw_split: false
+    multi_route: true
+    init_conn_multi_route: true
+    schema_sharding: 128
+    table_sharding: 1
+    table_configs:
+    -
+        name: paomian
+        sharding_key: entity_id
+        rule: string
+    -
+        name: fusu
+        sharding_key: entity_id
+        rule: string
+    -
+        name: nanxing
+        sharding_key: entity_id
+        rule: string
+-
+    name: order
+    host_group_cluster: cluster_one_plus_four
+    rw_split: false
+    multi_route: true
+    init_conn_multi_route: true
+    schema_sharding: 128
+    table_sharding: 1
+    table_configs:
+    -
+        name: paydetail
+        sharding_key: entity_id
+        rule: string
+    -
+        name: waitinginstanceinfo
+        sharding_key: entity_id
+        rule: string
+    -
+        name: totalpayinfo
+        sharding_key: entity_id
+        rule: string
+    -
+        name: payinfo
+        sharding_key: entity_id
+        rule: string
+    -
+        name: servicebillinfo
+        sharding_key: entity_id
+        rule: string
+    -
+        name: specialfee
+        sharding_key: entity_id
+        rule: string
+    -
+        name: orderdetail
+        sharding_key: entity_id
+        rule: string
+    -
+        name: takeout_order_extra
+        sharding_key: entity_id
+        rule: string
+    -
+        name: takeout_instance_extra
+        sharding_key: waitinginstance_id
+        rule: string
+    -
+        name: globalcodeorder
+        sharding_key: global_code
+        rule: string
+    -
+        name: simplecodeorder
+        sharding_key: simple_code
+        rule: string
+    -
+        name: instancedetail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: customer_order_relation
+        sharding_key: customerregister_id
+        rule: string
+    -
+        name: waitingorderdetail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: waiting_pay
+        sharding_key: entity_id
+        rule: int
+    -
+        name: order_snapshot
+        sharding_key: entity_id
+        rule: int
+    -
+        name: order_bill
+        sharding_key: entity_id
+        rule: int
+    -
+        name: instancebill
+        sharding_key: entity_id
+        rule: int
+    -
+        name: discount_detail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: presell_order_extra
+        sharding_key: entity_id
+        rule: int
+    -
+        name: order_refund
+        sharding_key: entity_id
+        rule: int
+    -
+        name: refund_pay_item
+        sharding_key: entity_id
+        rule: int
+
+-
+    name: boss
+    host_group_cluster: cluster_one_plus_four
+    rw_split: false
+    multi_route: true
+    init_conn_multi_route: true
+    schema_sharding: 128
+    table_sharding: 1
+    table_configs:
+    -
+        name: ir_menu_ext
+        sharding_key: entity_id
+        rule: int
+    -
+        name: ir_menu_label
+        sharding_key: entity_id
+        rule: int
+    -
+        name: ir_plan_config
+        sharding_key: entity_id
+        rule: int
+    -
+        name: ir_entity_config
+        sharding_key: entity_id
+        rule: int
+    -
+        name: bo_task
+        sharding_key: entity_id
+        rule: int
+    -
+        name: bo_task_history
+        sharding_key: entity_id
+        rule: int
+    -
+        name: bo_task_history_failure
+        sharding_key: entity_id
+        rule: int
+    -
+        name: boss_entity_config
+        sharding_key: entity_id
+        rule: int
+    -
+        name: fm_configuration
+        sharding_key: entity_id
+        rule: int
+    -
+        name: ir_shop_label
+        sharding_key: entity_id
+        rule: int
+    -
+        name: ir_shop_template
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_menu_price_plan
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_menu_price_plan_shop
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_menu_price_plan_detail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_menu_plate_relation
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_shop_power
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_publish_plan
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_publish_history
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_publish_relation
+        sharding_key: entity_id
+        rule: int
+    -
+        name: trade_record
+        sharding_key: entity_id
+        rule: int
+    -
+        name: menu_repeat_warn_detail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: examine_shop_setting
+        sharding_key: entity_id
+        rule: int
+    -
+        name: examine_result
+        sharding_key: entity_id
+        rule: int
+    -
+        name: examine_result_detail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_publish_task
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_publish_detail
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_publish_task_record
+        sharding_key: entity_id
+        rule: int
+    -
+        name: agreement_schedule
+        sharding_key: entity_id
+        rule: int
+    -
+        name: guide_data
+        sharding_key: entity_id
+        rule: int
+    -
+        name: chain_menu_fix_map
+        sharding_key: entity_id
+        rule: int
+    -
+        name: bak_chain_menu_plate_relation
+        sharding_key: entity_id
+        rule: int

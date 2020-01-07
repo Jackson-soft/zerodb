@@ -1,0 +1,8 @@
+- hosts: daily_agent
+  vars:
+    ansible_user: 'root'
+    ansible_ssh_pass: 'sdfsdf'
+    service_name: zero-agent
+  tasks:
+    - name: restart agent
+      shell: systemctl restart zero-agent
