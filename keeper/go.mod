@@ -9,7 +9,7 @@ require (
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/cors v1.3.0
-	github.com/gin-gonic/gin v1.7.0
+	github.com/gin-gonic/gin v1.7.7
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/golang/mock v1.1.1
 	github.com/google/uuid v1.1.1 // indirect
